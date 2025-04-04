@@ -5,8 +5,8 @@ import TradeGoods from '../pages/TradeGoods.vue'
 import CulturalExchange from '../pages/CulturalExchange.vue'
 import SilkRoadSites from '../pages/SilkRoadSites.vue'
 import HistoricalEvents from '../pages/HistoricalEvents.vue'
-import ModernSites from '../pages/ModernSites.vue'
 import SiteDetail from '../pages/SiteDetail.vue'
+import Locatoin from '../pages/Location.vue'
 
 const routes = [
   {
@@ -30,6 +30,11 @@ const routes = [
     component: CulturalExchange
   },
   {
+    path: '/locatoin',
+    name: 'locatoin',
+    component: Locatoin
+  },
+  {
     path: '/SilkRoadsites',
     name: 'silkRoadsites',
     component: SilkRoadSites
@@ -38,11 +43,6 @@ const routes = [
     path: '/historical-events',
     name: 'historical-events',
     component: HistoricalEvents
-  },
-  {
-    path: '/modern-sites',
-    name: 'modern-sites',
-    component: ModernSites
   },
   {
     path: '/site/:id',

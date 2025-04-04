@@ -53,7 +53,7 @@
             </div>
           </router-link>
 
-          <router-link to="/silkRoadsites" class="info-box">
+          <router-link to="/locatoin" class="info-box">
             <div class="info-box-inner">
               <h3>地理位置</h3>
               <p>{{ displayCity?.geography || '请选择地图上的位置' }}</p>
@@ -73,7 +73,7 @@
             </div>
           </router-link>
 
-          <router-link to="/modern-sites" class="info-box">
+          <router-link to="/silkRoadsites" class="info-box">
             <div class="info-box-inner">
               <h3>现代遗址</h3>
               <p>{{ displayCity?.modernSites || '请选择地图上的位置' }}</p>

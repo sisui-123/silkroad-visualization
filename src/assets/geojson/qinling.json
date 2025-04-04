@@ -1,0 +1,48 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "秦岭主脉",
+          "elevation": 3767,
+          "description": "中国南北地理分界线"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [107.5, 34.0],
+              [108.2, 33.8],
+              [109.1, 33.9],
+              [110.0, 34.2],
+              [110.5, 34.5],
+              [109.8, 34.8],
+              [108.5, 34.6],
+              [107.5, 34.0]
+            ]
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "终南山",
+          "elevation": 2604,
+          "description": "秦岭著名山峰"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [108.8, 33.9],
+              [109.0, 33.8],
+              [109.2, 33.9],
+              [109.1, 34.1],
+              [108.8, 33.9]
+            ]
+          ]
+        }
+      }
+    ]
+  }
