@@ -1,0 +1,27 @@
+# 支持的浏览器范围
+> 1%
+last 2 versions
+not dead
+not ie 11
+
+# 开发环境
+development:
+  > 1%
+  last 2 versions
+  not dead
+  not ie 11
+
+# 生产环境
+production:
+  > 1%
+  last 2 versions
+  not dead
+  not ie 11
+  not op_mini all
+
+# 测试环境
+test:
+  > 1%
+  last 2 versions
+  not dead
+  not ie 11 
