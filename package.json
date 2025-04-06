@@ -13,14 +13,17 @@
     "@antv/l7-component": "^2.22.5",
     "@antv/l7-layers": "^2.22.5",
     "@antv/l7-maps": "^2.22.5",
+    "@vueuse/motion": "^3.0.3",
     "aos": "^2.3.4",
     "d3": "^7.9.0",
     "echarts": "^5.6.0",
+    "framer-motion": "^12.6.3",
     "gsap": "^3.12.7",
     "pinia": "^3.0.1",
     "three": "^0.162.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-wordcloud": "^1.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
