@@ -1,5 +1,14 @@
 <template>
   <div class="historical-events">
+    <!-- 城市切换选择器 -->
+    <div class="city-selector">
+      <select v-model="selectedCity" @change="changeCity">
+        <option v-for="city in availableCities" :key="city.value" :value="city.value">
+          {{ city.label }}
+        </option>
+      </select>
+    </div>
+    
     <!-- 遮罩层 -->
     <div class="modal-overlay" :class="{ 'active': selectedEvent }"></div>
     
@@ -11,7 +20,7 @@
       <div class="events-container">
         <TransitionGroup name="card">
           <div
-            v-for="(event, index) in events"
+            v-for="(event, index) in filteredEvents"
             :key="event.id"
             class="event-card"
             :class="{ 
@@ -22,7 +31,7 @@
             }"
             :style="{
               '--index': index,
-              '--total': events.length
+              '--total': filteredEvents.length
             }"
             @click="selectEvent(event.id, index % 2 === 0)"
           >
@@ -132,6 +141,23 @@
 import { ref, computed } from 'vue'
 
 const selectedEvent = ref(null)
+const selectedCity = ref('xian') // 默认选择西安
+
+// 可用城市列表
+const availableCities = [
+  { label: '西安', value: 'xian' },
+  { label: '敦煌', value: 'dunhuang' },
+  { label: '长安', value: 'changan' },
+  { label: '洛阳', value: 'luoyang' },
+  { label: '广州', value: 'guangzhou' }
+]
+
+// 城市切换函数
+const changeCity = () => {
+  // 切换城市时清除选中的事件
+  selectedEvent.value = null
+  // 这里可以添加其他城市切换逻辑，如加载特定城市的数据
+}
 
 const historicalEvents = [
   {
@@ -164,7 +190,8 @@ const historicalEvents = [
     },
     timeRange: {
       display: '公元前221年'
-    }
+    },
+    city: 'xian' // 添加城市标识
   },
   {
     id: 2,
@@ -196,7 +223,8 @@ const historicalEvents = [
     },
     timeRange: {
       display: '公元前139年'
-    }
+    },
+    city: 'xian' // 添加城市标识
   },
   {
     id: 3,
@@ -228,7 +256,8 @@ const historicalEvents = [
     },
     timeRange: {
       display: '公元618年'
-    }
+    },
+    city: 'xian' // 添加城市标识
   },
   {
     id: 4,
@@ -260,7 +289,8 @@ const historicalEvents = [
     },
     timeRange: {
       display: '公元627年'
-    }
+    },
+    city: 'changan' // 添加城市标识
   },
   {
     id: 5,
@@ -292,7 +322,8 @@ const historicalEvents = [
     },
     timeRange: {
       display: '1936年12月12日'
-    }
+    },
+    city: 'xian' // 添加城市标识
   },
   {
     id: 6,
@@ -324,9 +355,80 @@ const historicalEvents = [
     },
     timeRange: {
       display: '1983年至今'
-    }
+    },
+    city: 'xian' // 添加城市标识
+  },
+  {
+    id: 7,
+    title: '莫高窟艺术',
+    year: '公元366年至今',
+    icon: 'fas fa-monument',
+    description: '敦煌莫高窟是世界上现存规模最大、内容最丰富的佛教艺术圣地。',
+    background: '因丝绸之路的繁荣，佛教东传，敦煌成为东西方文化交汇的重要节点。',
+    impact: '保存了大量珍贵的佛教艺术和历史文献，是研究中国古代艺术、宗教和民族关系的重要资料。',
+    mainVideo: '/videos/mogao-caves.mp4',
+    videoCaption: '莫高窟艺术纪录片',
+    keyEvents: [
+      '公元366年，乐僔开凿第一个洞窟',
+      '唐代达到鼎盛，开凿了大量精美洞窟',
+      '1900年，王道士发现藏经洞',
+      '现代保护与数字化工作持续进行'
+    ],
+    keyFigures: [
+      { name: '乐僔', role: '创始人', image: '/images/dunhuang/le-zun.jpg' },
+      { name: '王圆箓', role: '发现藏经洞的道士', image: '/images/dunhuang/wang-yuanlu.jpg' }
+    ],
+    artifacts: [
+      { name: '飞天壁画', image: '/images/dunhuang/flying-apsaras.jpg' },
+      { name: '敦煌经卷', image: '/images/dunhuang/dunhuang-manuscripts.jpg' }
+    ],
+    locations: ['莫高窟', '藏经洞', '敦煌市'],
+    images: {
+      main: '/images/dunhuang/mogao-caves.jpg'
+    },
+    timeRange: {
+      display: '公元366年至今'
+    },
+    city: 'dunhuang' // 添加城市标识
+  },
+  {
+    id: 8,
+    title: '广州十三行贸易',
+    year: '1757年至1842年',
+    icon: 'fas fa-ship',
+    description: '清朝时期，广州成为中国唯一对外开放的通商口岸，十三行是当时中外贸易的唯一渠道。',
+    background: '清朝实行海禁政策，仅允许广州一地进行对外贸易，并通过行商制度管理外贸。',
+    impact: '促进了中西贸易和文化交流，但也导致了鸦片战争等一系列历史事件。',
+    mainVideo: '/videos/thirteen-factories.mp4',
+    videoCaption: '广州十三行贸易历史',
+    keyEvents: [
+      '1757年，清朝颁布"一口通商"政策',
+      '1760年，十三行行商制度正式确立',
+      '1835年，广州外贸达到鼎盛',
+      '1842年，鸦片战争后，广州失去独家对外贸易权'
+    ],
+    keyFigures: [
+      { name: '潘启官', role: '十三行行商', image: '/images/guangzhou/pan-qiguan.jpg' },
+      { name: '伍秉鉴', role: '著名行商', image: '/images/guangzhou/wu-bingjian.jpg' }
+    ],
+    artifacts: [
+      { name: '外销瓷器', image: '/images/guangzhou/export-porcelain.jpg' },
+      { name: '十三行遗址', image: '/images/guangzhou/thirteen-factories-site.jpg' }
+    ],
+    locations: ['十三行', '沙面', '黄埔'],
+    images: {
+      main: '/images/guangzhou/thirteen-factories.jpg'
+    },
+    timeRange: {
+      display: '1757年至1842年'
+    },
+    city: 'guangzhou' // 添加城市标识
   }
 ]
+
+const filteredEvents = computed(() => {
+  return historicalEvents.filter(event => event.city === selectedCity.value)
+})
 
 const events = computed(() => historicalEvents)
 
@@ -363,9 +465,10 @@ const selectEvent = (eventId, isTop) => {
   background: rgba(0, 0, 0, 0.7);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   z-index: 5;
   backdrop-filter: blur(3px);
+  will-change: opacity, visibility;
 }
 
 .modal-overlay.active {
@@ -415,8 +518,9 @@ const selectEvent = (eventId, isTop) => {
   width: 260px;
   cursor: pointer;
   z-index: 2;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   left: calc((var(--index) / (var(--total) - 1)) * (100% - 260px));
+  transform-origin: center center;
 }
 
 .event-card.top {
@@ -442,6 +546,7 @@ const selectEvent = (eventId, isTop) => {
   justify-content: center;
   align-items: center;
   padding: 40px;
+  will-change: transform, opacity;
 }
 
 .event-card.selected .card-content {
@@ -465,11 +570,12 @@ const selectEvent = (eventId, isTop) => {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   animation: scaleIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
   overflow-y: auto;
+  will-change: transform;
 }
 
 @keyframes scaleIn {
   from {
-    transform: scale(0.92);
+    transform: scale(0.95);
     opacity: 0;
   }
   to {
@@ -497,12 +603,14 @@ const selectEvent = (eventId, isTop) => {
   transform: translateY(40vh);
   opacity: 0;
   pointer-events: none;
+  transition-delay: 0.05s;
 }
 
 /* 移动其他卡片 - 下方卡片被选中 */
 .event-card.selected.bottom ~ .event-card {
   transform: translateY(-40vh);
   opacity: 0;
+  transition-delay: 0.05s;
   pointer-events: none;
 }
 
@@ -511,6 +619,7 @@ const selectEvent = (eventId, isTop) => {
   pointer-events: none;
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transform: scale(0.95);
+  transition-delay: 0.05s;
 }
 
 .card-content {
@@ -521,6 +630,7 @@ const selectEvent = (eventId, isTop) => {
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: 1px solid #eee;
   transform-origin: center center;
+  will-change: transform, width, height;
 }
 
 .card-content.expanded {
@@ -1154,5 +1264,42 @@ const selectEvent = (eventId, isTop) => {
 .event-main,
 .event-sidebar {
   padding-bottom: 24px;
+}
+
+/* 城市选择器样式 */
+.city-selector {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.city-selector select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 32px;
+}
+
+.city-selector select:hover {
+  border-color: #ccc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.city-selector select:focus {
+  outline: none;
+  border-color: #e0c088;
+  box-shadow: 0 0 0 3px rgba(224, 192, 136, 0.2);
 }
 </style>
