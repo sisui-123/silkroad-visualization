@@ -1,0 +1,205 @@
+/* 将 @import 替换为 @use 和 @forward */
+@use 'sass:color';
+@use './variables' as vars;
+@forward './transitions';
+
+/* 全局基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: vars.$font-sans;
+  font-size: 16px;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 卡片组件通用样式 */
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: vars.$spacing-6;
+  transition: box-shadow var(--transition-normal) ease,
+              transform var(--transition-normal) ease;
+  
+  &:hover {
+    box-shadow: vars.$shadow-lg;
+  }
+}
+
+// 按钮通用样式
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: vars.$spacing-2 vars.$spacing-4;
+  border-radius: vars.$radius-md;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+  border: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    
+    &:hover:not(:disabled) {
+      // 将 darken(vars.$primary-blue, 10%) 替换为 color.adjust
+      background-color: color.adjust(vars.$primary-blue, $lightness: -10%);
+    }
+  }
+  
+  &.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+    
+    &:hover:not(:disabled) {
+      // 将 darken(vars.$primary-green, 10%) 替换为 color.adjust
+      background-color: color.adjust(vars.$primary-green, $lightness: -10%);
+    }
+  }
+  
+  &.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  }
+}
+
+// 标题样式
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: vars.$spacing-4;
+  color: var(--text-color);
+}
+
+h1 {
+  font-size: vars.$text-4xl;
+}
+
+h2 {
+  font-size: vars.$text-3xl;
+}
+
+h3 {
+  font-size: vars.$text-2xl;
+}
+
+h4 {
+  font-size: vars.$text-xl;
+}
+
+h5 {
+  font-size: vars.$text-lg;
+}
+
+h6 {
+  font-size: vars.$text-base;
+}
+
+// 响应式工具类
+.hide-on-mobile {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.hide-on-desktop {
+  @media (min-width: 769px) {
+    display: none !important;
+  }
+}
+
+// 图表容器通用样式
+.chart-container {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+
+// 加载状态
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  
+  &::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// 工具类
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: vars.$spacing-2;
+}
+
+.gap-4 {
+  gap: vars.$spacing-4;
+}
+
+.mt-4 {
+  margin-top: vars.$spacing-4;
+}
+
+.mb-4 {
+  margin-bottom: vars.$spacing-4;
+}
+
+.p-4 {
+  padding: vars.$spacing-4;
+}

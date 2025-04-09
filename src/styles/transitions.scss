@@ -1,0 +1,150 @@
+// 基础过渡效果
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-normal) ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// 图表动画
+.chart-enter-active {
+  transition: opacity var(--transition-slow) ease, 
+              transform var(--transition-slow) var(--ease-out-back);
+}
+
+.chart-enter-from {
+  opacity: 0;
+  transform: scale(0.95) translateY(10px);
+}
+
+// 卡片动画
+.card-enter-active {
+  transition: opacity var(--transition-normal) ease,
+              transform var(--transition-normal) var(--ease-out-back);
+}
+
+.card-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.card-leave-active {
+  transition: opacity var(--transition-fast) ease,
+              transform var(--transition-fast) ease;
+}
+
+.card-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+// 列表动画
+.list-enter-active,
+.list-leave-active {
+  transition: all var(--transition-normal) ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+// 列表项动画（带延迟）
+.list-item-enter-active {
+  transition: all var(--transition-normal) ease;
+  transition-delay: calc(var(--i, 0) * 0.05s);
+}
+
+.list-item-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+// 路由过渡
+.route-enter-active,
+.route-leave-active {
+  transition: opacity var(--transition-normal) ease;
+}
+
+.route-enter-from,
+.route-leave-to {
+  opacity: 0;
+}
+
+// 滑动过渡
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform var(--transition-normal) ease;
+}
+
+.slide-left-enter-from,
+.slide-right-leave-to {
+  transform: translateX(-100%);
+}
+
+.slide-left-leave-to,
+.slide-right-enter-from {
+  transform: translateX(100%);
+}
+
+// 缩放过渡
+.scale-enter-active,
+.scale-leave-active {
+  transition: transform var(--transition-normal) var(--ease-out-back),
+              opacity var(--transition-normal) ease;
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+// 按钮悬停效果
+@mixin button-hover-effect {
+  transition: transform var(--transition-fast) ease,
+              box-shadow var(--transition-fast) ease,
+              background-color var(--transition-fast) ease;
+              
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+// 卡片悬停效果
+@mixin card-hover-effect {
+  transition: transform var(--transition-normal) ease,
+              box-shadow var(--transition-normal) ease;
+              
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 图表高亮效果
+@mixin chart-highlight-effect {
+  transition: opacity var(--transition-fast) ease,
+              transform var(--transition-fast) ease;
+              
+  &.highlight {
+    opacity: 1;
+    transform: scale(1.05);
+    z-index: 2;
+  }
+  
+  &.dimmed {
+    opacity: 0.5;
+  }
+}

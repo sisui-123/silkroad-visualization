@@ -1,0 +1,119 @@
+// 主色调
+$primary-blue: #3B82F6;
+$primary-green: #10B981;
+$primary-amber: #F59E0B;
+$primary-red: #EF4444;
+$primary-purple: #8B5CF6;
+
+// 中性色调
+$neutral-50: #F8FAFC;
+$neutral-100: #F1F5F9;
+$neutral-200: #E2E8F0;
+$neutral-300: #CBD5E1;
+$neutral-400: #94A3B8;
+$neutral-500: #64748B;
+$neutral-600: #475569;
+$neutral-700: #334155;
+$neutral-800: #1E293B;
+$neutral-900: #0F172A;
+
+// 渐变色
+$gradient-blue-green: linear-gradient(135deg, $primary-blue 0%, $primary-green 100%);
+$gradient-blue-purple: linear-gradient(135deg, $primary-blue 0%, $primary-purple 100%);
+$gradient-amber-red: linear-gradient(135deg, $primary-amber 0%, $primary-red 100%);
+
+// 阴影
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// 圆角
+$radius-sm: 0.125rem;
+$radius-md: 0.375rem;
+$radius-lg: 0.5rem;
+$radius-xl: 0.75rem;
+$radius-2xl: 1rem;
+$radius-3xl: 1.5rem;
+$radius-full: 9999px;
+
+// 间距
+$spacing-1: 0.25rem;
+$spacing-2: 0.5rem;
+$spacing-3: 0.75rem;
+$spacing-4: 1rem;
+$spacing-6: 1.5rem;
+$spacing-8: 2rem;
+$spacing-12: 3rem;
+$spacing-16: 4rem;
+
+// 字体
+$font-sans: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+$font-serif: 'Noto Serif SC', Georgia, Cambria, serif;
+$font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+// 字体大小
+$text-xs: 0.75rem;
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-lg: 1.125rem;
+$text-xl: 1.25rem;
+$text-2xl: 1.5rem;
+$text-3xl: 1.875rem;
+$text-4xl: 2.25rem;
+
+// 图表相关
+$chart-colors: (
+  'blue': $primary-blue,
+  'green': $primary-green,
+  'amber': $primary-amber,
+  'red': $primary-red,
+  'purple': $primary-purple
+);
+
+$chart-area-opacity: 0.2;
+$chart-line-width: 2px;
+$chart-point-size: 6px;
+
+// CSS变量（可在运行时修改）
+:root {
+  --primary-color: #{$primary-blue};
+  --secondary-color: #{$primary-green};
+  --accent-color: #{$primary-amber};
+  --danger-color: #{$primary-red};
+  
+  --text-color: #{$neutral-800};
+  --text-color-light: #{$neutral-600};
+  --text-color-lighter: #{$neutral-500};
+  
+  --bg-color: #{$neutral-50};
+  --card-bg: white;
+  --card-shadow: #{$shadow-md};
+  --card-radius: #{$radius-xl};
+  
+  --chart-area-opacity: #{$chart-area-opacity};
+  --chart-line-width: #{$chart-line-width};
+  --chart-point-size: #{$chart-point-size};
+  
+  --header-height: 64px;
+  --footer-height: 48px;
+  --sidebar-width: 240px;
+  
+  --transition-fast: 0.15s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+// 暗色模式
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #{$neutral-200};
+    --text-color-light: #{$neutral-300};
+    --text-color-lighter: #{$neutral-400};
+    
+    --bg-color: #{$neutral-900};
+    --card-bg: #{$neutral-800};
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  }
+}

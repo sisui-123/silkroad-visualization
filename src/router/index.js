@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
-import HistoricalPeriod from '../pages/HistoricalPeriod.vue'
+import HistoricalPeriod from '../components/MainDashboard.vue'
 import TradeGoods from '../pages/TradeGoods.vue'
 import CulturalExchange from '../pages/CulturalExchange.vue'
 import SilkRoadSites from '../pages/SilkRoadSites.vue'
