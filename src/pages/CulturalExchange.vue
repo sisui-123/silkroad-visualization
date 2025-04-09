@@ -44,7 +44,6 @@
                 :class="['filter-btn', { active: selectedCategory === category }]"
                 @click="selectCategory(category)"
               >
-                {{ category }}
               </button>
             </div>
           </div>

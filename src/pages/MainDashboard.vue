@@ -2,8 +2,8 @@
 import { ref, provide, computed, watch, onMounted, nextTick } from 'vue';
 import { usePeriodStore } from '../store/period.store';
 import { useChartStore } from '../store/chart.store';
-import DataPanel from './DataPanel.vue';
-import TimeAxis from './TimeAxis.vue';
+import DataPanel from '../components/DataPanel.vue';
+import TimeAxis from '../components/TimeAxis.vue';
 import exportService from '../services/export.service';
 import AOS from 'aos';
 import 'aos/dist/aos.css';

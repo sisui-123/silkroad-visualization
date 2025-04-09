@@ -33,7 +33,7 @@
             </div>
           </router-link>
 
-          <router-link to="/trade-items" class="info-box">
+          <router-link to="/trade-goods" class="info-box">
             <div class="info-box-inner">
               <h3>主要贸易品</h3>
               <p>{{ displayCity?.tradeItems || '请选择地图上的位置' }}</p>
@@ -53,7 +53,7 @@
             </div>
           </router-link>
 
-          <router-link to="/locatoin" class="info-box">
+          <router-link to="/location" class="info-box">
             <div class="info-box-inner">
               <h3>地理位置</h3>
               <p>{{ displayCity?.geography || '请选择地图上的位置' }}</p>
@@ -543,4 +543,4 @@ const tooltipStyle = computed(() => {
 .fade-leave-to {
   opacity: 0;
 }
-</style> 
+</style>

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
-import HistoricalPeriod from '../components/MainDashboard.vue'
-import TradeGoods from '../pages/TradeGoods.vue'
+import HistoricalPeriod from '../pages/MainDashboard.vue'
+import TradeGoods from '../pages/TradeAnalysis.vue'
 import CulturalExchange from '../pages/CulturalExchange.vue'
 import SilkRoadSites from '../pages/SilkRoadSites.vue'
 import HistoricalEvents from '../pages/HistoricalEvents.vue'
@@ -30,12 +30,12 @@ const routes = [
     component: CulturalExchange
   },
   {
-    path: '/locatoin',
-    name: 'locatoin',
+    path: '/location',
+    name: 'location',
     component: Locatoin
   },
   {
-    path: '/SilkRoadsites',
+    path: '/silkRoadsites',
     name: 'silkRoadsites',
     component: SilkRoadSites
   },
@@ -60,4 +60,4 @@ const router = createRouter({
   routes
 })
 
-export default router 
+export default router
