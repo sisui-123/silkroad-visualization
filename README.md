@@ -59,7 +59,7 @@
 
 1. 克隆项目
 ```bash
-git clone https://github.com/yourusername/silkroad-visualization.git
+git clone https://github.com/sisui-123/silkroad-visualization.git
 cd silkroad-visualization
 ```
 
