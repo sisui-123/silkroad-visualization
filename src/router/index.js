@@ -1,12 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
 import HistoricalPeriod from '../pages/MainDashboard.vue'
-import TradeGoods from '../pages/TradeAnalysis.vue'
+import TradeGoods from '../pages/Trade.vue'
 import CulturalExchange from '../pages/CulturalExchange.vue'
-import SilkRoadSites from '../pages/SilkRoadSites.vue'
 import HistoricalEvents from '../pages/HistoricalEvents.vue'
-import SiteDetail from '../pages/SiteDetail.vue'
 import Locatoin from '../pages/Location.vue'
+import Site from '../pages/Site.vue'
 
 const routes = [
   {
@@ -37,17 +36,12 @@ const routes = [
   {
     path: '/silkRoadsites',
     name: 'silkRoadsites',
-    component: SilkRoadSites
+    component: Site
   },
   {
     path: '/historical-events',
     name: 'historical-events',
     component: HistoricalEvents
-  },
-  {
-    path: '/site/:id',
-    name: 'site-detail',
-    component: SiteDetail
   },
   {
     path: '/:pathMatch(.*)*',
@@ -56,7 +50,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 })
 

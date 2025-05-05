@@ -1,12 +1,24 @@
 <script setup>
 import { ref, provide, computed, watch, onMounted, nextTick } from 'vue';
-import { usePeriodStore } from '../store/period.store';
-import { useChartStore } from '../store/chart.store';
 import DataPanel from '../components/DataPanel.vue';
 import TimeAxis from '../components/TimeAxis.vue';
+import { usePeriodStore } from '../store/period.store';
+import { useChartStore } from '../store/chart.store';
 import exportService from '../services/export.service';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
+// 城市名称映射
+const cityNameMap = {
+  'xian': '西安',
+  'dunhuang': '敦煌',
+  'kashgar': '喀什',
+  'samarkand': '撒马尔罕',
+  'balkh': '布拉哈',
+  'merv': '梅尔夫',
+  'baghdad': '巴格达',
+  'constantinople': '君士坦丁堡'
+};
 
 // 创建模拟的 route 和 router 对象，以便在安装 vue-router 之前代码能够运行
 const route = {
@@ -38,6 +50,10 @@ const switchCity = (city) => {
     params: { city },
     query: route.query
   });
+  // 新增：切换时间轴
+  if (timelineRef.value && cityNameMap[city]) {
+    timelineRef.value.changeCity(cityNameMap[city]);
+  }
 };
 
 // 返回城市选择页面
@@ -190,6 +206,25 @@ const handleCitySelect = (cityId) => {
   selectedCity.value = cityId;
   showCitySelector.value = false;
   
+  // 更新页面抬头
+  document.title = `${cityNameMap[cityId]} 历史数据`;
+  
+  // 更新数据面板和时间轴
+  const dataPanel = document.querySelector('data-panel');
+  const timeAxis = document.querySelector('time-axis');
+  
+  if (dataPanel) {
+    dataPanel.__vue__.updateData(cityId);
+  }
+  
+  if (timeAxis) {
+    timeAxis.__vue__.changeCity(cityNameMap[cityId]);
+  }
+  
+  if (timelineRef.value && cityNameMap[cityId]) {
+    timelineRef.value.changeCity(cityNameMap[cityId]);
+  }
+  
   // 如果需要更新路由，可以在这里处理
   if (router) {
     router.push({ 
@@ -199,6 +234,24 @@ const handleCitySelect = (cityId) => {
     });
   }
 };
+
+// 监听城市选择变化
+watch(selectedCity, (newCity) => {
+  handleCitySelect(newCity);
+});
+
+// 监听路由参数变化
+watch(() => route.params.city, (newCity) => {
+  if (newCity) {
+    selectedCity.value = newCity;
+    showCitySelector.value = false;
+    
+    // 更新页面抬头
+    document.title = `${cityNameMap[newCity]} 历史数据`;
+  } else {
+    showCitySelector.value = true;
+  }
+});
 </script>
 
 <template>
@@ -206,7 +259,7 @@ const handleCitySelect = (cityId) => {
   
   <div v-else class="cultural-exchange">
     <div class="glass-container">
-      <h1 class="title">{{ selectedCity === 'xian' ? '西安' : selectedCity === 'dunhuang' ? '敦煌' : '喀什' }} 历史数据</h1>
+      <h1 class="title">{{ cityNameMap[selectedCity] || '未知城市' }} 历史数据</h1>
 
       <!-- 将城市切换器移到右上角 -->
       <div class="top-right-controls">
@@ -217,9 +270,14 @@ const handleCitySelect = (cityId) => {
             @change="switchCity(selectedCity)">
             <option 
               v-for="city in [
-                { id: 'xian', name: '西安', icon: '🏯' }, 
-                { id: 'dunhuang', name: '敦煌', icon: '🕌' }, 
-                { id: 'kashgar', name: '喀什', icon: '🕍' }
+                { id: 'xian', name: '西安', icon: '🏯' },
+                { id: 'dunhuang', name: '敦煌', icon: '🕌' },
+                { id: 'kashgar', name: '喀什', icon: '🕍' },
+                { id: 'samarkand', name: '撒马尔罕', icon: '🏯' },
+                { id: 'balkh', name: '布拉哈', icon: '🕌' },
+                { id: 'merv', name: '梅尔夫', icon: '🕍' },
+                { id: 'baghdad', name: '巴格达', icon: '🏯' },
+                { id: 'constantinople', name: '君士坦丁堡', icon: '⛪' }
               ]" 
               :key="city.id"
               :value="city.id">

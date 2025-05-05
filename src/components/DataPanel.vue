@@ -16,6 +16,33 @@ import { LineChart, BarChart, PieChart, ScatterChart, HeatmapChart } from 'echar
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 
+import { historicalData } from '../assets/data/historicalData';
+
+// 更新数据方法
+const updateData = (cityId) => {
+  selectedCity.value = cityId;
+  updateChartOptions();
+  
+  // 清除现有图表实例
+  charts.value.forEach((chart, index) => {
+    if (chart) {
+      chart.dispose();
+      charts.value[index] = null;
+    }
+  });
+  
+  // 延迟一下，确保 DOM 更新后再初始化图表
+  setTimeout(() => {
+    initCharts();
+  }, 100);
+};
+
+// 暴露 updateData 方法
+defineExpose({
+  updateData
+});
+
+
 // 注册 ECharts 组件
 echarts.use([
   TitleComponent,
@@ -51,6 +78,7 @@ const charts = ref([null, null, null, null]);
 const comparisonPeriod = inject('comparisonPeriod', ref(null));
 
 
+
 // 当前选中的数据类别
 const selectedCategory = ref('economic');
 
@@ -60,7 +88,12 @@ const selectedCity = inject('selectedCity', ref('xian'));
 const cityNameMap = {
   'xian': '西安',
   'dunhuang': '敦煌',
-  'kashgar': '喀什'
+  'kashgar': '喀什',
+  'samarkand': '撒马尔罕',
+  'balkh': '布拉哈',
+  'merv': '梅尔夫',
+  'baghdad': '巴格达',
+  'constantinople': '君士坦丁堡'
 };
 
 // 计算当前城市的显示名称
@@ -73,532 +106,25 @@ const currentCityName = computed(() => {
 const isLoading = ref(true);
 const loadError = ref(null);
 
-// 生成模拟数据
-const generateMockData = (category,city=selectedCity.value) => {
-  const mockData = {};
-  
-  if(city==='西安'){
-    switch (category) {
-        
-        case 'economic':
-          mockData.tradeRatio = [
-            { year: 618, value: 15, name: '唐初丝路贸易' },
-            { year: 700, value: 35, name: '盛唐丝路贸易' },
-            { year: 800, value: 40, name: '中唐丝路贸易' },
-            { year: 900, value: 30, name: '晚唐丝路贸易' },
-            { year: 1000, value: 20, name: '宋初丝路贸易' },
-            { year: 1100, value: 25, name: '北宋丝路贸易' },
-            { year: 1200, value: 30, name: '南宋丝路贸易' },
-            { year: 1300, value: 15, name: '元代丝路贸易' }
-          ];
-          
-          mockData.caravans = [
-            { year: 618, count: 120, name: '唐初商队' },
-            { year: 700, count: 350, name: '盛唐商队' },
-            { year: 800, count: 400, name: '中唐商队' },
-            { year: 900, count: 280, name: '晚唐商队' },
-            { year: 1000, count: 150, name: '宋初商队' },
-            { year: 1100, count: 220, name: '北宋商队' },
-            { year: 1200, count: 260, name: '南宋商队' },
-            { year: 1300, count: 180, name: '元代商队' }
-          ];
-          
-          mockData.agriculture = [
-            { name: '粮食作物', value: 60 },
-            { name: '经济作物', value: 25 },
-            { name: '果蔬种植', value: 10 },
-            { name: '其他农产', value: 5 }
-          ];
-          
-          mockData.revenue = convertToPercentage([
-            { year: 618, value: 100, name: '唐初财政' },
-            { year: 700, value: 450, name: '盛唐财政' },
-            { year: 800, value: 380, name: '中唐财政' },
-            { year: 900, value: 250, name: '晚唐财政' },
-            { year: 1000, value: 180, name: '宋初财政' },
-            { year: 1100, value: 320, name: '北宋财政' },
-            { year: 1200, value: 280, name: '南宋财政' },
-            { year: 1300, value: 150, name: '元代财政' }
-          ])
-          break;
-          
-        case 'population':
-          mockData.total = [
-            { year: 618, value: 80, name: '唐初人口' },
-            { year: 700, value: 120, name: '盛唐人口' },
-            { year: 800, value: 100, name: '中唐人口' },
-            { year: 900, value: 85, name: '晚唐人口' },
-            { year: 1000, value: 70, name: '宋初人口' },
-            { year: 1100, value: 95, name: '北宋人口' },
-            { year: 1200, value: 110, name: '南宋人口' },
-            { year: 1300, value: 65, name: '元代人口' }
-          ];
-          
-          mockData.distribution = [
-            { name: '城内居民', value: 40 },
-            { name: '近郊居民', value: 30 },
-            { name: '远郊农民', value: 20 },
-            { name: '流动人口', value: 10 }
-          ];
-          
-          mockData.urbanRatio = [
-            { year: 618, value: 25, name: '唐初城市化' },
-            { year: 700, value: 40, name: '盛唐城市化' },
-            { year: 800, value: 35, name: '中唐城市化' },
-            { year: 900, value: 30, name: '晚唐城市化' },
-            { year: 1000, value: 28, name: '宋初城市化' },
-            { year: 1100, value: 38, name: '北宋城市化' },
-            { year: 1200, value: 42, name: '南宋城市化' },
-            { year: 1300, value: 32, name: '元代城市化' }
-          ];
-          
-          mockData.density = [
-            { year: 618, count: 150, name: '唐初密度' },
-            { year: 700, count: 280, name: '盛唐密度' },
-            { year: 800, count: 250, name: '中唐密度' },
-            { year: 900, count: 200, name: '晚唐密度' },
-            { year: 1000, count: 180, name: '宋初密度' },
-            { year: 1100, count: 240, name: '北宋密度' },
-            { year: 1200, count: 260, name: '南宋密度' },
-            { year: 1300, count: 170, name: '元代密度' }
-          ];
-          break;
-          
-        case 'military':
-          mockData.armySize = [
-            { year: 618, value: 50, name: '唐初军队' },
-            { year: 700, value: 120, name: '盛唐军队' },
-            { year: 800, value: 100, name: '中唐军队' },
-            { year: 900, value: 80, name: '晚唐军队' },
-            { year: 1000, value: 60, name: '宋初军队' },
-            { year: 1100, value: 90, name: '北宋军队' },
-            { year: 1200, value: 85, name: '南宋军队' },
-            { year: 1300, value: 70, name: '元代军队' }
-          ];
-          
-          mockData.composition = [
-            { name: '步兵', value: 60 },
-            { name: '骑兵', value: 25 },
-            { name: '弓箭手', value: 10 },
-            { name: '辅助部队', value: 5 }
-          ];
-          
-          mockData.battles = [
-            { year: 618, name: '玄武门之变', result: '胜利' },
-            { year: 700, name: '安西都护府战役', result: '胜利' },
-            { year: 751, name: '怛罗斯战役', result: '失败' },
-            { year: 755, name: '安史之乱', result: '失败' },
-            { year: 800, name: '西域战役', result: '胜利' },
-            { year: 900, name: '黄巢起义', result: '失败' },
-            { year: 1000, name: '西夏战役', result: '失败' },
-            { year: 1100, name: '靖康之变', result: '失败' }
-          ];
-          
-          mockData.weapons = [
-            { year: 618, count: 5000, name: '唐初兵器' },
-            { year: 700, count: 12000, name: '盛唐兵器' },
-            { year: 800, count: 10000, name: '中唐兵器' },
-            { year: 900, count: 8000, name: '晚唐兵器' },
-            { year: 1000, count: 6000, name: '宋初兵器' },
-            { year: 1100, count: 9000, name: '北宋兵器' },
-            { year: 1200, count: 8500, name: '南宋兵器' },
-            { year: 1300, count: 7000, name: '元代兵器' }
-          ];
-          break;
-          
-        case 'culture':
-          mockData.literature = [
-            { year: 618, count: 120, name: '唐初文学' },
-            { year: 700, count: 350, name: '盛唐文学' },
-            { year: 800, count: 300, name: '中唐文学' },
-            { year: 900, count: 250, name: '晚唐文学' },
-            { year: 1000, count: 180, name: '宋初文学' },
-            { year: 1100, count: 320, name: '北宋文学' },
-            { year: 1200, count: 280, name: '南宋文学' },
-            { year: 1300, count: 150, name: '元代文学' }
-          ];
-          
-          mockData.inventions = [
-            { year: 618, impact: 70, name: '印刷术改良' },
-            { year: 700, impact: 90, name: '火药发明' },
-            { year: 800, impact: 85, name: '指南针应用' },
-            { year: 900, impact: 75, name: '瓷器工艺' },
-            { year: 1000, impact: 80, name: '活字印刷' },
-            { year: 1100, impact: 95, name: '造纸技术' },
-            { year: 1200, impact: 88, name: '天文仪器' },
-            { year: 1300, impact: 65, name: '航海技术' }
-          ];
-          
-          mockData.education = [
-            { year: 618, literacyRate: 15, name: '唐初教育' },
-            { year: 700, literacyRate: 25, name: '盛唐教育' },
-            { year: 800, literacyRate: 22, name: '中唐教育' },
-            { year: 900, literacyRate: 18, name: '晚唐教育' },
-            { year: 1000, literacyRate: 20, name: '宋初教育' },
-            { year: 1100, literacyRate: 28, name: '北宋教育' },
-            { year: 1200, literacyRate: 30, name: '南宋教育' },
-            { year: 1300, literacyRate: 22, name: '元代教育' }
-          ];
-          
-          mockData.religion = [
-            { name: '佛教', followers: 45 },
-            { name: '道教', followers: 30 },
-            { name: '儒家', followers: 20 },
-            { name: '其他', followers: 5 }
-          ];
-          break;
-      }
-    }else if(city==='敦煌'){
-      switch (category) {
-        
-      case 'economic':
-        mockData.tradeRatio = [
-          { year: 618, value: 25, name: '唐初丝路贸易' },
-          { year: 700, value: 45, name: '盛唐丝路贸易' },
-          { year: 800, value: 50, name: '中唐丝路贸易' },
-          { year: 900, value: 40, name: '晚唐丝路贸易' },
-          { year: 1000, value: 30, name: '宋初丝路贸易' },
-          { year: 1100, value: 35, name: '北宋丝路贸易' },
-          { year: 1200, value: 40, name: '南宋丝路贸易' },
-          { year: 1300, value: 25, name: '元代丝路贸易' }
-        ];
-        
-        mockData.caravans = [
-          { year: 618, count: 180, name: '唐初商队' },
-          { year: 700, count: 420, name: '盛唐商队' },
-          { year: 800, count: 480, name: '中唐商队' },
-          { year: 900, count: 350, name: '晚唐商队' },
-          { year: 1000, count: 220, name: '宋初商队' },
-          { year: 1100, count: 280, name: '北宋商队' },
-          { year: 1200, count: 320, name: '南宋商队' },
-          { year: 1300, count: 240, name: '元代商队' }
-        ];
-        
-        mockData.agriculture = [
-          { name: '粮食作物', value: 40 },
-          { name: '经济作物', value: 15 },
-          { name: '果蔬种植', value: 15 },
-          { name: '绿洲农业', value: 30 }
-        ];
-        
-        mockData.revenue = [
-          { year: 618, value: 80, name: '唐初财政' },
-          { year: 700, value: 350, name: '盛唐财政' },
-          { year: 800, value: 300, name: '中唐财政' },
-          { year: 900, value: 200, name: '晚唐财政' },
-          { year: 1000, value: 150, name: '宋初财政' },
-          { year: 1100, value: 250, name: '北宋财政' },
-          { year: 1200, value: 220, name: '南宋财政' },
-          { year: 1300, value: 120, name: '元代财政' }
-        ];
-        break;
-
-        case 'population':
-        mockData.total = [
-          { year: 618, value: 30, name: '唐初人口' },
-          { year: 700, value: 60, name: '盛唐人口' },
-          { year: 800, value: 50, name: '中唐人口' },
-          { year: 900, value: 40, name: '晚唐人口' },
-          { year: 1000, value: 35, name: '宋初人口' },
-          { year: 1100, value: 45, name: '北宋人口' },
-          { year: 1200, value: 55, name: '南宋人口' },
-          { year: 1300, value: 30, name: '元代人口' }
-        ];
-        
-        mockData.distribution = [
-          { name: '城内居民', value: 35 },
-          { name: '近郊居民', value: 25 },
-          { name: '绿洲农民', value: 30 },
-          { name: '流动人口', value: 10 }
-        ];
-        
-        mockData.urbanRatio = [
-          { year: 618, value: 20, name: '唐初城市化' },
-          { year: 700, value: 35, name: '盛唐城市化' },
-          { year: 800, value: 30, name: '中唐城市化' },
-          { year: 900, value: 25, name: '晚唐城市化' },
-          { year: 1000, value: 22, name: '宋初城市化' },
-          { year: 1100, value: 32, name: '北宋城市化' },
-          { year: 1200, value: 36, name: '南宋城市化' },
-          { year: 1300, value: 28, name: '元代城市化' }
-        ];
-        
-        mockData.density = [
-          { year: 618, count: 80, name: '唐初密度' },
-          { year: 700, count: 150, name: '盛唐密度' },
-          { year: 800, count: 130, name: '中唐密度' },
-          { year: 900, count: 110, name: '晚唐密度' },
-          { year: 1000, count: 90, name: '宋初密度' },
-          { year: 1100, count: 120, name: '北宋密度' },
-          { year: 1200, count: 140, name: '南宋密度' },
-          { year: 1300, count: 85, name: '元代密度' }
-        ];
-        break;
-
-      case 'military':
-        mockData.armySize = [
-          { year: 618, value: 20, name: '唐初军队' },
-          { year: 700, value: 60, name: '盛唐军队' },
-          { year: 800, value: 50, name: '中唐军队' },
-          { year: 900, value: 40, name: '晚唐军队' },
-          { year: 1000, value: 30, name: '宋初军队' },
-          { year: 1100, value: 45, name: '北宋军队' },
-          { year: 1200, value: 40, name: '南宋军队' },
-          { year: 1300, value: 35, name: '元代军队' }
-        ];
-        
-        mockData.composition = [
-          { name: '步兵', value: 50 },
-          { name: '骑兵', value: 35 },
-          { name: '弓箭手', value: 10 },
-          { name: '辅助部队', value: 5 }
-        ];
-        
-        mockData.battles = [
-          { year: 630, name: '高昌之战', result: '胜利' },
-          { year: 715, name: '安西四镇战役', result: '胜利' },
-          { year: 751, name: '怛罗斯战役', result: '失败' },
-          { year: 755, name: '安史之乱影响', result: '失败' },
-          { year: 781, name: '吐蕃入侵', result: '失败' },
-          { year: 848, name: '沙州回归', result: '胜利' },
-          { year: 1036, name: '西夏入侵', result: '失败' },
-          { year: 1227, name: '蒙古征服', result: '失败' }
-        ];
-        
-        mockData.weapons = [
-          { year: 618, count: 2000, name: '唐初兵器' },
-          { year: 700, count: 6000, name: '盛唐兵器' },
-          { year: 800, count: 5000, name: '中唐兵器' },
-          { year: 900, count: 4000, name: '晚唐兵器' },
-          { year: 1000, count: 3000, name: '宋初兵器' },
-          { year: 1100, count: 4500, name: '北宋兵器' },
-          { year: 1200, count: 4200, name: '南宋兵器' },
-          { year: 1300, count: 3500, name: '元代兵器' }
-        ];
-        break;
-
-        case 'culture':
-        mockData.literature = [
-          { year: 618, count: 80, name: '唐初文学' },
-          { year: 700, count: 250, name: '盛唐文学' },
-          { year: 800, count: 220, name: '中唐文学' },
-          { year: 900, count: 180, name: '晚唐文学' },
-          { year: 1000, count: 120, name: '宋初文学' },
-          { year: 1100, count: 220, name: '北宋文学' },
-          { year: 1200, count: 200, name: '南宋文学' },
-          { year: 1300, count: 100, name: '元代文学' }
-        ];
-        
-        mockData.inventions = [
-          { year: 650, impact: 85, name: '敦煌壁画技术' },
-          { year: 700, impact: 80, name: '丝绸染色工艺' },
-          { year: 750, impact: 75, name: '佛经装帧技术' },
-          { year: 820, impact: 70, name: '石窟建造技术' },
-          { year: 900, impact: 65, name: '敦煌乐舞' },
-          { year: 1000, impact: 75, name: '藏经洞保存技术' },
-          { year: 1100, impact: 70, name: '西域乐器改良' },
-          { year: 1200, impact: 60, name: '壁画修复技术' }
-        ];
-        
-        mockData.education = [
-          { year: 618, literacyRate: 10, name: '唐初教育' },
-          { year: 700, literacyRate: 18, name: '盛唐教育' },
-          { year: 800, literacyRate: 16, name: '中唐教育' },
-          { year: 900, literacyRate: 12, name: '晚唐教育' },
-          { year: 1000, literacyRate: 14, name: '宋初教育' },
-          { year: 1100, literacyRate: 20, name: '北宋教育' },
-          { year: 1200, literacyRate: 22, name: '南宋教育' },
-          { year: 1300, literacyRate: 15, name: '元代教育' }
-        ];
-        
-        mockData.religion = [
-          { name: '佛教', followers: 70 },
-          { name: '道教', followers: 15 },
-          { name: '儒家', followers: 10 },
-          { name: '其他', followers: 5 }
-        ];
-        break;
-    }
-  }else if(city==='喀什'){
-    switch (category) {
-      
-      case 'economic':
-        mockData.tradeRatio = [
-          { year: 618, value: 30, name: '唐初丝路贸易' },
-          { year: 700, value: 50, name: '盛唐丝路贸易' },
-          { year: 800, value: 55, name: '中唐丝路贸易' },
-          { year: 900, value: 45, name: '晚唐丝路贸易' },
-          { year: 1000, value: 35, name: '宋初丝路贸易' },
-          { year: 1100, value: 40, name: '北宋丝路贸易' },
-          { year: 1200, value: 45, name: '南宋丝路贸易' },
-          { year: 1300, value: 60, name: '元代丝路贸易' }
-        ];
-        
-        mockData.caravans = [
-          { year: 618, count: 200, name: '唐初商队' },
-          { year: 700, count: 450, name: '盛唐商队' },
-          { year: 800, count: 500, name: '中唐商队' },
-          { year: 900, count: 380, name: '晚唐商队' },
-          { year: 1000, count: 250, name: '宋初商队' },
-          { year: 1100, count: 320, name: '北宋商队' },
-          { year: 1200, count: 360, name: '南宋商队' },
-          { year: 1300, count: 420, name: '元代商队' }
-        ];
-        
-        mockData.agriculture = [
-          { name: '粮食作物', value: 35 },
-          { name: '经济作物', value: 20 },
-          { name: '果蔬种植', value: 25 },
-          { name: '绿洲农业', value: 20 }
-        ];
-        
-        mockData.revenue = [
-          { year: 618, value: 70, name: '唐初财政' },
-          { year: 700, value: 320, name: '盛唐财政' },
-          { year: 800, value: 280, name: '中唐财政' },
-          { year: 900, value: 180, name: '晚唐财政' },
-          { year: 1000, value: 130, name: '宋初财政' },
-          { year: 1100, value: 220, name: '北宋财政' },
-          { year: 1200, value: 200, name: '南宋财政' },
-          { year: 1300, value: 250, name: '元代财政' }
-        ];
-        break;
-
-        case 'population':
-        mockData.total = [
-          { year: 618, value: 25, name: '唐初人口' },
-          { year: 700, value: 50, name: '盛唐人口' },
-          { year: 800, value: 45, name: '中唐人口' },
-          { year: 900, value: 35, name: '晚唐人口' },
-          { year: 1000, value: 30, name: '宋初人口' },
-          { year: 1100, value: 40, name: '北宋人口' },
-          { year: 1200, value: 45, name: '南宋人口' },
-          { year: 1300, value: 55, name: '元代人口' }
-        ];
-        
-        mockData.distribution = [
-          { name: '城内居民', value: 30 },
-          { name: '近郊居民', value: 25 },
-          { name: '绿洲农民', value: 35 },
-          { name: '流动人口', value: 10 }
-        ];
-        
-        mockData.urbanRatio = [
-          { year: 618, value: 18, name: '唐初城市化' },
-          { year: 700, value: 30, name: '盛唐城市化' },
-          { year: 800, value: 28, name: '中唐城市化' },
-          { year: 900, value: 22, name: '晚唐城市化' },
-          { year: 1000, value: 20, name: '宋初城市化' },
-          { year: 1100, value: 28, name: '北宋城市化' },
-          { year: 1200, value: 32, name: '南宋城市化' },
-          { year: 1300, value: 38, name: '元代城市化' }
-        ];
-        
-        mockData.density = [
-          { year: 618, count: 70, name: '唐初密度' },
-          { year: 700, count: 130, name: '盛唐密度' },
-          { year: 800, count: 120, name: '中唐密度' },
-          { year: 900, count: 100, name: '晚唐密度' },
-          { year: 1000, count: 80, name: '宋初密度' },
-          { year: 1100, count: 110, name: '北宋密度' },
-          { year: 1200, count: 125, name: '南宋密度' },
-          { year: 1300, count: 150, name: '元代密度' }
-        ];
-        break;
-        
-        case 'military':
-        mockData.armySize = [
-          { year: 618, value: 15, name: '唐初军队' },
-          { year: 700, value: 45, name: '盛唐军队' },
-          { year: 800, value: 40, name: '中唐军队' },
-          { year: 900, value: 30, name: '晚唐军队' },
-          { year: 1000, value: 25, name: '宋初军队' },
-          { year: 1100, value: 35, name: '北宋军队' },
-          { year: 1200, value: 30, name: '南宋军队' },
-          { year: 1300, value: 50, name: '元代军队' }
-        ];
-        
-        mockData.composition = [
-          { name: '步兵', value: 40 },
-          { name: '骑兵', value: 45 },
-          { name: '弓箭手', value: 10 },
-          { name: '辅助部队', value: 5 }
-        ];
-        
-        mockData.battles = [
-          { year: 640, name: '龟兹之战', result: '胜利' },
-          { year: 670, name: '天山南北战役', result: '胜利' },
-          { year: 751, name: '怛罗斯战役', result: '失败' },
-          { year: 755, name: '安史之乱影响', result: '失败' },
-          { year: 790, name: '吐蕃入侵', result: '失败' },
-          { year: 840, name: '回鹘战争', result: '胜利' },
-          { year: 1000, name: '喀喇汗王朝', result: '失败' },
-          { year: 1220, name: '蒙古征服', result: '失败' }
-        ];
-        
-        mockData.weapons = [
-          { year: 618, count: 1500, name: '唐初兵器' },
-          { year: 700, count: 4500, name: '盛唐兵器' },
-          { year: 800, count: 4000, name: '中唐兵器' },
-          { year: 900, count: 3000, name: '晚唐兵器' },
-          { year: 1000, count: 2500, name: '宋初兵器' },
-          { year: 1100, count: 3500, name: '北宋兵器' },
-          { year: 1200, count: 3000, name: '南宋兵器' },
-          { year: 1300, count: 5000, name: '元代兵器' }
-        ];
-        break;
-
-        case 'culture':
-        mockData.literature = [
-          { year: 618, count: 60, name: '唐初文学' },
-          { year: 700, count: 180, name: '盛唐文学' },
-          { year: 800, count: 160, name: '中唐文学' },
-          { year: 900, count: 130, name: '晚唐文学' },
-          { year: 1000, count: 100, name: '宋初文学' },
-          { year: 1100, count: 170, name: '北宋文学' },
-          { year: 1200, count: 150, name: '南宋文学' },
-          { year: 1300, count: 180, name: '元代文学' }
-        ];
-        
-        mockData.inventions = [
-          { year: 630, impact: 75, name: '丝绸之路贸易技术' },
-          { year: 710, impact: 85, name: '西域乐器制作' },
-          { year: 760, impact: 80, name: '喀什玉器工艺' },
-          { year: 820, impact: 70, name: '西域农业灌溉' },
-          { year: 880, impact: 65, name: '喀什地毯编织' },
-          { year: 980, impact: 75, name: '伊斯兰建筑技术' },
-          { year: 1080, impact: 80, name: '西域医学传承' },
-          { year: 1180, impact: 85, name: '喀什天文观测' }
-        ];
-        
-        mockData.education = [
-          { year: 618, literacyRate: 8, name: '唐初教育' },
-          { year: 700, literacyRate: 15, name: '盛唐教育' },
-          { year: 800, literacyRate: 13, name: '中唐教育' },
-          { year: 900, literacyRate: 10, name: '晚唐教育' },
-          { year: 1000, literacyRate: 12, name: '宋初教育' },
-          { year: 1100, literacyRate: 18, name: '北宋教育' },
-          { year: 1200, literacyRate: 20, name: '南宋教育' },
-          { year: 1300, literacyRate: 25, name: '元代教育' }
-        ];
-        
-        mockData.religion = [
-          { name: '伊斯兰教', followers: 55 },
-          { name: '佛教', followers: 25 },
-          { name: '道教', followers: 10 },
-          { name: '其他', followers: 10 }
-        ];
-        break;
-    }
+// 获取真实数据
+const getRealData = (category, city = selectedCity.value) => {
+  const cityData = historicalData[city];
+  if (!cityData) {
+    console.warn(`未找到${city}的数据`);
+    return {};
   }
-  return mockData;
+  
+  const categoryData = cityData[category];
+  if (!categoryData) {
+    console.warn(`未找到${city}的${category}数据`);
+    return {};
+  }
+  
+  return categoryData;
 }
 
-// 生成特定图表的模拟数据
-const generateMockChartData = (category, dataKey, city = selectedCity.value) => {
-  const mockData = generateMockData(category, city);
-  return mockData[dataKey] || [];
-};
+
+
 
 // 修改图表配置，添加城市名称
 const updateChartOptions = () => {
@@ -830,24 +356,38 @@ const chartOptions = ref({
   },
 });
 
-// 监听城市变化，更新图表
+// 监听城市变化，更新图表和时间轴
 watch(() => selectedCity.value, (newCity) => {
   console.log('城市已切换为:', newCity, currentCityName.value);
   
   // 更新图表配置中的城市名称
   updateChartOptions();
+  
   // 清除现有图表实例
   charts.value.forEach((chart, index) => {
-      if (chart) {
-        chart.dispose();
-        charts.value[index] = null;
-      }
-    });
-    // 延迟一下，确保 DOM 更新后再初始化图表
-    setTimeout(() => {
-      initCharts();
-    }, 100);
+    if (chart) {
+      chart.dispose();
+      charts.value[index] = null;
+    }
+  });
+  
+  // 更新时间轴
+  const timeAxis = getTimeAxisInstance();
+  if (timeAxis) {
+    timeAxis.changeCity(currentCityName.value);
+  }
+  
+  // 延迟一下，确保 DOM 更新后再初始化图表
+  setTimeout(() => {
+    initCharts();
+  }, 100);
 });
+
+// 获取时间轴组件实例
+const getTimeAxisInstance = () => {
+  const timeAxis = document.querySelector('time-axis');
+  return timeAxis?.__vue__;
+};
 
 // 计算当前选中的图表配置
 const currentChartConfig = computed(() => {
@@ -856,30 +396,17 @@ const currentChartConfig = computed(() => {
 
 // 初始化图表
 const initCharts = async () => {
-  // 确保DOM已经渲染完成
   await nextTick();
-
-  console.log('尝试初始化图表');
-  
-  // 使用 getElementById 获取图表容器 - 修改这里使用正确的ID格式
   currentChartConfig.value.charts.forEach((chartConfig, index) => {
     const chartId = `chart-${selectedCategory.value}-${index}`;
     const chartContainer = document.getElementById(chartId);
     
     if (chartContainer && !charts.value[index]) {
-      console.log(`初始化图表 ${index}`);
-      try {
-        charts.value[index] = echarts.init(chartContainer);
-      } catch (error) {
-        console.error(`初始化图表 ${index} 失败:`, error);
-      }
-    } else if (!chartContainer) {
-      console.warn(`图表容器 ${chartId} 不存在`);
+      charts.value[index] = echarts.init(chartContainer);
+      const cityData = getRealData(selectedCategory.value, selectedCity.value);
+      updateChart(chartConfig, cityData[chartConfig.dataKey], index);
     }
   });
-
-  // 加载数据并更新图表
-  loadChartData();
 };
 
 // 加载图表数据
@@ -928,8 +455,17 @@ const updateCharts = (data, comparisonData = null) => {
   updateChartsWithData(categoryData, comparisonData ? comparisonData[selectedCategory.value] : null);
 };
 
-// 使用实际数据更新图表
+// 更新图表数据
 const updateChartsWithData = (categoryData, comparisonCategoryData = null) => {
+  // 如果 categoryData 为空，使用真实数据
+  if (!categoryData || Object.keys(categoryData).length === 0) {
+    categoryData = getRealData(selectedCategory.value, selectedCity.value);
+  }
+  
+  if (comparisonCategoryData && Object.keys(comparisonCategoryData).length === 0) {
+    comparisonCategoryData = getRealData(selectedCategory.value, comparisonPeriod.value);
+  }
+  
   // 更新每个图表
   currentChartConfig.value.charts.forEach((chartConfig, index) => {
     if (!charts.value[index]) {
@@ -949,6 +485,7 @@ const updateChartsWithData = (categoryData, comparisonCategoryData = null) => {
     updateChart(chartConfig, chartData, index, comparisonCategoryData);
   });
 };
+
 
 // 更新单个图表
 const updateChart = (chartConfig, chartData, index, comparisonCategoryData) => {
@@ -1526,13 +1063,13 @@ onMounted(() => {
     </div>
     
     <div class="charts-container" :class="{ loading: isLoading }">
-      <div v-if="isLoading" class="loading-indicator">
+      <!-- <div v-if="isLoading" class="loading-indicator">
         加载中...
       </div>
       
       <div v-else-if="loadError" class="error-message">
         加载失败: {{ loadError }}
-      </div>
+      </div> -->
       
       <!-- 修改图表容器的ID，加入类别信息确保唯一性 -->
       <div 

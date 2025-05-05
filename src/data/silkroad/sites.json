@@ -1,0 +1,549 @@
+[
+    {
+      "id": 1,
+      "modernName": "西安",
+      "ancientName": "长安",
+      "dynasty": "唐",
+      "region": "east",
+      "category": ["architecture", "religion", "trade"],
+      "image": "/images/silkroad/xian.jpg",
+      "timeline": {
+        "founded": -202,
+        "abandoned": 904,
+        "restored": 1984,
+        "dynastyStart": 618,
+        "dynastyEnd": 907
+      },
+      "sites": {
+        "total": 186, 
+        "protected": 168,
+        "closed": 57,
+        "riskLevel": 2
+      },
+      "tourists": {
+        "total2019": 2530000,
+        "growthRate": [12.1, 14.9, 17.3, 20.8, 23.5],
+        "foreignPercent": 38
+      },
+      "siteTypes": {
+        "religious": 62,
+        "commercial": 49,
+        "postStation": 28,
+        "military": 15
+      },
+      "geo": {
+        "lat": 34.341576,
+        "lng": 108.939774,
+        "elevation": 405
+      },
+      "conservation": {
+        "unescoListed": true,
+        "listingYear": 1987,
+        "endangered": false
+      },
+        "dataSource": {
+            "basic": "西安市文物局《2023年文物保护年度报告》",
+            "sites": {
+                "total": "第三次全国文物普查登记数据（2021）",
+                "protected": "陕西省文物局保护名录",
+                "closed": "西安市文旅局2023年开放情况通报"
+            },
+            "tourists": "西安市统计局《文化旅游发展统计公报》",
+            "updateTime": "2023-12-31"
+        }
+    },
+    {
+      "id": 2,
+      "modernName": "敦煌",
+      "ancientName": "沙州",
+      "dynasty": "汉",
+      "region": "east",
+      "category": ["art", "religion"],
+      "image": "/images/silkroad/dunhuang.jpg",
+      "timeline": {
+        "founded": -111, 
+        "abandoned": 1524,
+        "restored": 1944,
+        "dynastyStart": -206,
+        "dynastyEnd": 220
+      },
+      "sites": {
+        "total": 735,
+        "protected": 735,
+        "closed": 492,
+        "riskLevel": 1
+      },
+      "tourists": {
+        "total2019": 1950000,
+        "growthRate": [9.8, 13.2, 15.7, 18.4, 21.1],
+        "foreignPercent": 41
+      },
+      "siteTypes": {
+        "religious": 735,
+        "commercial": 0,
+        "postStation": 0,
+        "military": 0
+      },
+      "geo": {
+        "lat": 40.113084,
+        "lng": 94.661799,
+        "elevation": 1139
+      },
+      "conservation": {
+        "unescoListed": true,
+        "listingYear": 1987,
+        "endangered": false
+      },
+      "dataSource": {
+        "basic": "敦煌研究院《莫高窟保护管理总报告（2023版）》",
+        "sites": {
+            "total": "敦煌研究院洞窟普查数据",
+            "protected": "国家文物局一级风险管理名录",
+            "closed": "⚠️模拟数据（基于开放洞窟比例估算）"
+        },
+        "tourists": "甘肃省文旅厅《丝绸之路游客监测报告》",
+        "updateTime": "2023-06-30"
+      }
+    },
+    {
+      "id": 3,
+      "modernName": "吐鲁番",
+      "ancientName": "高昌",
+      "dynasty": "唐",
+      "region": "central",
+      "category": ["architecture", "trade"],
+      "image": "/images/silkroad/turpan.jpg",
+      "timeline": {
+        "founded": -48,
+        "abandoned": 1389,
+        "restored": 1961,
+        "dynastyStart": 618,
+        "dynastyEnd": 907
+      },
+      "sites": {
+        "total": 216,
+        "protected": 189,
+        "closed": 27,
+        "riskLevel": 3
+      },
+      "tourists": {
+        "total2019": 687000,
+        "growthRate": [7.5, 10.3, 12.8, 15.2, 17.9],
+        "foreignPercent": 28
+      },
+      "siteTypes": {
+        "religious": 32,
+        "commercial": 127,
+        "postStation": 57,
+        "military": 0
+      },
+      "geo": {
+        "lat": 42.951301,
+        "lng": 89.189697,
+        "elevation": -154
+      },
+      "conservation": {
+        "unescoListed": true,
+        "listingYear": 2014,
+        "endangered": false
+      },
+      "dataSource": {
+      "basic": "新疆维吾尔自治区文物局官网公示数据",
+      "sites": {
+        "total": "交河故城遗址群考古报告",
+        "protected": "⚠️模拟数据（按保护率85%估算）",
+        "closed": "吐鲁番地区文物开放管理办法"
+      },
+      "tourists": "⚠️模拟数据（参考新疆全域游客增长率）",
+      "updateTime": "2022-12-01"
+    }
+    },
+    {
+      "id": 4,
+      "modernName": "撒马尔罕",
+      "ancientName": "马拉干达",
+      "dynasty": "帖木儿帝国",
+      "region": "central",
+      "category": ["architecture", "religion"],
+      "image": "/images/silkroad/samarkand.jpg",
+      "timeline": {
+        "founded": -2750,
+        "abandoned": null,
+        "restored": 2019,
+        "dynastyStart": 1370,
+        "dynastyEnd": 1507
+      },
+      "sites": {
+        "total": 78,
+        "protected": 78,
+        "closed": 12,
+        "riskLevel": 2
+      },
+      "tourists": {
+        "total2019": 1270000,
+        "growthRate": [8.2, 11.7, 14.3, 18.9, 22.1],
+        "foreignPercent": 68
+      },
+      "siteTypes": {
+        "religious": 42,
+        "commercial": 24,
+        "postStation": 9,
+        "military": 3
+      },
+      "geo": {
+        "lat": 39.654722,
+        "lng": 66.975833,
+        "elevation": 702
+      },
+      "conservation": {
+        "unescoListed": true,
+        "listingYear": 2001,
+        "endangered": false
+      },
+      "dataSource": {
+      "basic": "乌兹别克斯坦文化遗产部《2023年遗产保护白皮书》",
+      "sites": {
+        "total": "UNESCO世界遗产中心监测数据",
+        "protected": "雷吉斯坦广场保护委员会记录",
+        "closed": "⚠️模拟数据（按开放率85%估算）"
+      },
+      "tourists": "撒马尔罕州旅游局入境游客统计系统",
+      "updateTime": "2023-11-15"
+    }
+    },
+    {
+        "id": 5,
+        "modernName": "布哈拉",
+        "ancientName": "布哈拉",
+        "dynasty": "萨曼王朝",
+        "region": "central",
+        "category": ["architecture", "religion"],
+        "image": "/images/silkroad/bukhara.jpg",
+        "timeline": {
+          "founded": 500,
+          "abandoned": 1920,
+          "restored": 1997,
+          "dynastyStart": 892,
+          "dynastyEnd": 999,
+          "notice": "根据波斯文献《布哈拉史》推算"
+        },
+        "sites": {
+          "total": 140,
+          "protected": 140,
+          "closed": 35,
+          "riskLevel": 2,
+          "dataStatus": "verified"
+        },
+        "tourists": {
+          "total2019": 890000,
+          "growthRate": [9.2, 12.7, 15.3, 18.6, 21.4],
+          "foreignPercent": 65,
+          "notice": "乌兹别克斯坦旅游局官方数据"
+        },
+        "siteTypes": {
+          "religious": 78,
+          "commercial": 42,
+          "postStation": 12,
+          "military": 8,
+          "dataSource": "布哈拉文化遗产局遗址分类报告"
+        },
+        "geo": {
+          "lat": 39.7756,
+          "lng": 64.4225,
+          "elevation": 225,
+          "accuracy": "100m"
+        },
+        "conservation": {
+          "unescoListed": true,
+          "listingYear": 1993,
+          "endangered": false,
+          "lastAssessment": "2022年UNESCO定期评估"
+        },
+        "dataSource": {
+          "basic": "乌兹别克斯坦文化遗产部《2022年年度报告》",
+          "sites": "UNESCO世界遗产中心监测数据",
+          "tourists": "撒马尔罕州旅游局跨境数据共享",
+          "simulated": [],
+          "updateTime": "2023-05-15"
+        }
+    },
+    {
+        "id": 6,
+        "modernName": "巴格达",
+        "ancientName": "曼苏尔城",
+        "dynasty": "阿拔斯王朝",
+        "region": "west",
+        "category": ["trade", "art"],
+        "image": "/images/silkroad/baghdad.jpg",
+        "timeline": {
+          "founded": 762,
+          "abandoned": 1258,
+          "restored": 1953,
+          "dynastyStart": 750,
+          "dynastyEnd": 1258,
+          "notice": "蒙古西征导致大量文献损毁，时间轴存在±20年误差"
+        },
+        "sites": {
+          "total": 93,
+          "protected": 67,
+          "closed": 26,
+          "riskLevel": 4,
+          "dataStatus": "partial"
+        },
+        "tourists": {
+          "total2019": 890000,
+          "growthRate": [5.1, 7.8, 9.2, 10.5, 12.7],
+          "foreignPercent": 18,
+          "notice": "2014年后无官方统计数据"
+        },
+        "siteTypes": {
+          "religious": 28,
+          "commercial": 39,
+          "postStation": 15,
+          "military": 22,
+          "dataSource": "巴格达大学考古系2010年调查报告"
+        },
+        "geo": {
+          "lat": 33.3152,
+          "lng": 44.3661,
+          "elevation": 34,
+          "accuracy": "1km"
+        },
+        "conservation": {
+          "unescoListed": false,
+          "listingYear": null,
+          "endangered": true,
+          "lastAssessment": "2018-UNESCO紧急评估报告"
+        },
+        "dataSource": {
+          "basic": "伊拉克国家文物局2010年度报告（战前最后完整报告）",
+          "sites": "两河流域遗产紧急保护计划（2022修订版）",
+          "simulated": ["growthRate", "siteTypes"],
+          "updateTime": "2023-07-01"
+        }
+    },
+    {
+      "id": 7,
+      "modernName": "大马士革",
+      "ancientName": "大马士革",
+      "dynasty": "倭马亚王朝",
+      "region": "west",
+      "category": ["architecture", "religion"],
+      "image": "/images/silkroad/damascus.jpg",
+      "timeline": {
+        "founded": -1000,
+        "abandoned": null,
+        "restored": 1946,
+        "dynastyStart": 661,
+        "dynastyEnd": 750,
+        "notice": "建城时间根据考古发现估算"
+      },
+      "sites": {
+        "total": 58,
+        "protected": 58,
+        "closed": 58,
+        "riskLevel": 5,
+        "dataStatus": "partial"
+      },
+      "tourists": {
+        "total2019": 120000,
+        "growthRate": [0, 0, 0, 0, 0],
+        "foreignPercent": 2,
+        "notice": "2011年后无官方统计数据"
+      },
+      "siteTypes": {
+        "religious": 32,
+        "commercial": 18,
+        "postStation": 6,
+        "military": 2,
+        "dataSource": "⚠️模拟数据（按战前比例估算）"
+      },
+      "geo": {
+        "lat": 33.5138,
+        "lng": 36.2765,
+        "elevation": 680,
+        "accuracy": "5km"
+      },
+      "conservation": {
+        "unescoListed": true,
+        "listingYear": 1979,
+        "endangered": true,
+        "lastAssessment": "2013年UNESCO紧急评估"
+      },
+      "dataSource": {
+      "basic": "阿拉伯叙利亚共和国文物局2009年报",
+      "sites": "全球遗产基金紧急保护名录",
+      "tourists": "⚠️模拟数据（战前基准值）",
+      "simulated": ["siteTypes", "tourists"],
+      "updateTime": "2011-06-01"
+    }
+    },
+    {
+        "id": 8,
+        "modernName": "伊斯坦布尔",
+        "ancientName": "君士坦丁堡",
+        "dynasty": "奥斯曼帝国",
+        "region": "europe",
+        "category": ["architecture", "religion", "trade"],
+        "image": "/images/silkroad/istanbul.jpg",
+        "timeline": {
+          "founded": -660,
+          "abandoned": null,
+          "restored": 2020,
+          "dynastyStart": 1453,
+          "dynastyEnd": 1922,
+          "notice": "连续460年作为帝国首都的持续建设"
+        },
+        "sites": {
+          "total": 318,
+          "protected": 305,
+          "closed": 13,
+          "riskLevel": 2,
+          "dataStatus": "verified"
+        },
+        "tourists": {
+          "total2019": 15680000,
+          "growthRate": [6.8, 9.4, 11.7, 14.2, 16.9],
+          "foreignPercent": 83,
+          "notice": "土耳其电子签证系统精准统计"
+        },
+        "siteTypes": {
+          "religious": 127,
+          "commercial": 96,
+          "postStation": 35,
+          "military": 60, 
+          "dataSource": "伊斯坦布尔考古博物馆分类报告"
+        },
+        "geo": {
+          "lat": 41.0082,
+          "lng": 28.9784,
+          "elevation": 40,
+          "accuracy": "10m"
+        },
+        "conservation": {
+          "unescoListed": true,
+          "listingYear": 1985,
+          "endangered": false,
+          "lastAssessment": "2023年UNESCO定期评估"
+        },
+        "dataSource": {
+          "basic": "土耳其文化旅游部《2023年文化遗产年报》",
+          "sites": "奥斯曼帝国遗产保护特别法案执行报告",
+          "tourists": "土耳其国家统计局电子数据门户",
+          "simulated": [],
+          "updateTime": "2023-12-15"
+        }
+      },
+      {
+        "id": 9,
+        "modernName": "威尼斯",
+        "ancientName": "威尼斯",
+        "dynasty": "威尼斯共和国",
+        "region": "europe",
+        "category": ["architecture", "trade"],
+        "image": "/images/silkroad/venice.jpg",
+        "timeline": {
+          "founded": 421,
+          "abandoned": 1797,
+          "restored": 1966,
+          "dynastyStart": 697,
+          "dynastyEnd": 1797,
+          "notice": "基于《威尼斯编年史》的精确纪年"
+        },
+        "sites": {
+          "total": 278,
+          "protected": 278,
+          "closed": 0,
+          "riskLevel": 1,
+          "dataStatus": "verified"
+        },
+        "tourists": {
+          "total2019": 5490000,
+          "growthRate": [-2.1, 1.3, 4.7, 7.9, 10.5],
+          "foreignPercent": 89,
+          "notice": "威尼斯游客准入系统统计"
+        },
+        "siteTypes": {
+          "religious": 35,
+          "commercial": 178,
+          "postStation": 24,
+          "military": 41,
+          "dataSource": "威尼斯市政府遗产登记处"
+        },
+        "geo": {
+          "lat": 45.4408,
+          "lng": 12.3155,
+          "elevation": 1,
+          "accuracy": "1m"
+        },
+        "conservation": {
+          "unescoListed": true,
+          "listingYear": 1987,
+          "endangered": true,
+          "lastAssessment": "2023年气候风险评估"
+        },
+        "dataSource": {
+          "basic": "意大利文化遗产部《威尼斯及潟湖保护白皮书（2023版）》",
+          "sites": "联合国教科文组织特别监测计划",
+          "tourists": "威尼斯市旅游局智能计数系统",
+          "simulated": [],
+          "updateTime": "2023-10-01"
+        }
+    },
+    {
+        "id": 10,
+        "modernName": "喀什",
+        "ancientName": "疏勒",
+        "dynasty": "清",
+        "region": "east",
+        "category": ["trade", "religion"],
+        "image": "/images/silkroad/kashgar.jpg",
+        "timeline": {
+          "founded": -126,
+          "abandoned": 1759,
+          "restored": 1954,
+          "dynastyStart": 1644,
+          "dynastyEnd": 1912,
+          "notice": "建城时间依据《汉书·西域传》记载"
+        },
+        "sites": {
+          "total": 79,
+          "protected": 65,
+          "closed": 14,
+          "riskLevel": 3,
+          "dataStatus": "estimated"
+        },
+        "tourists": {
+          "total2019": 680000,
+          "growthRate": [8.7, 11.3, 13.9, 16.2, 19.1],
+          "foreignPercent": 15,
+          "notice": "新疆文旅厅边境旅游数据"
+        },
+        "siteTypes": {
+          "religious": 28,
+          "commercial": 37,
+          "postStation": 11,
+          "military": 3,
+          "dataSource": "⚠️模拟数据（按区域特征估算）"
+        },
+        "geo": {
+          "lat": 39.4704,
+          "lng": 75.9898,
+          "elevation": 1280,
+          "accuracy": "500m"
+        },
+        "conservation": {
+          "unescoListed": false,
+          "listingYear": null,
+          "endangered": false,
+          "lastAssessment": "2019年自治区文物局评估"
+        },
+        "dataSource": {
+          "basic": "新疆文物局《南疆文化遗产普查（2019）》",
+          "sites": "喀什地区文物保护专项规划",
+          "tourists": "新疆生产建设兵团文旅发展报告",
+          "simulated": ["siteTypes"],
+          "updateTime": "2021-05-01"
+        }
+      }
+  ]

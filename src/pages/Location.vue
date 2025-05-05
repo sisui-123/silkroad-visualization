@@ -62,7 +62,7 @@
             <div class="city-card">
               <div class="city-header">
                 <h4 class="city-name">长安古城 · 丝路起点</h4>
-                <img src="./assets/dayanta.png" alt="西安大雁塔" class="city-image">
+                <img src="/images/dayanta.png" alt="西安大雁塔" class="city-image">
               </div>
               <div class="city-content">
                 <p class="city-intro">八百里秦川腹地，十三朝古都西安，作为丝绸之路的东方起点，拥有得天独厚的地理条件：</p>
@@ -156,7 +156,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/images/silk-road-bg.jpg') no-repeat center center;
+    background: url('/src/assets/location/dayanta.png') no-repeat center center;
     background-size: cover;
     opacity: 0.15;
     z-index: -1;

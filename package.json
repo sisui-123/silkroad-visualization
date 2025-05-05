@@ -17,11 +17,13 @@
     "aos": "^2.3.4",
     "d3": "^7.9.0",
     "echarts": "^5.6.0",
+    "echarts-gl": "^2.0.9",
     "framer-motion": "^12.6.3",
     "gsap": "^3.12.7",
     "pinia": "^3.0.1",
     "three": "^0.162.0",
     "vue": "^3.4.21",
+    "vue-echarts": "^7.0.3",
     "vue-router": "^4.3.0",
     "vue-wordcloud": "^1.1.1"
   },
